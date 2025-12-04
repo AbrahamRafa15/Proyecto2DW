@@ -1,20 +1,37 @@
 from pydantic import BaseModel
-from fastapi import FastAPI, Header, HTTPException
+from fastapi import FastAPI, Header, HTTPException, Depends
 from fastapi.middleware.cors import CORSMiddleware
 from datetime import datetime
 import crud
 from typing import Optional, List
+import httpx
+import os
+from fastapi import Query
 
-class Imagen(BaseModel):
-    titulo: str
-    url: Optional[str] = None
+SPOTIFY_CLIENT_ID = os.getenv("SPOTIFY_CLIENT_ID")
+SPOTIFY_CLIENT_SECRET = os.getenv("SPOTIFY_CLIENT_SECRET")
 
-class Post(BaseModel):
-    id: Optional[int]
-    autor: str
-    fecha: datetime
-    foto: Optional[Imagen]
-    contenido: str
+spotify_token_cache = {"token": None, "expires_at": 0}
+
+async def get_spotify_token():
+    import time
+    if spotify_token_cache["token"] and spotify_token_cache["expires_at"] > time.time():
+        return spotify_token_cache["token"]
+
+    url = "https://accounts.spotify.com/api/token"
+    headers = {"Content-Type": "application/x-www-form-urlencoded"}
+    data = {"grant_type": "client_credentials"}
+    auth = (SPOTIFY_CLIENT_ID, SPOTIFY_CLIENT_SECRET)
+
+    async with httpx.AsyncClient() as client:
+        r = await client.post(url, data=data, auth=auth)
+        r.raise_for_status()
+        resp = r.json()
+        token = resp["access_token"]
+        expires_in = resp["expires_in"]
+        spotify_token_cache["token"] = token
+        spotify_token_cache["expires_at"] = time.time() + expires_in - 30
+        return token
 
 app = FastAPI(title="Proyecto2DW API", version="1.0")
 
@@ -26,6 +43,50 @@ app.add_middleware(
     allow_headers=["*"],
 )
 
+@app.get("/spotify/new-releases")
+async def spotify_new_releases(limit: int = Query(10, ge=1, le=50)):
+    """Return new releases from Spotify."""
+    token = await get_spotify_token()
+    url = f"https://api.spotify.com/v1/browse/new-releases?limit={limit}"
+    headers = {"Authorization": f"Bearer {token}"}
+
+    async with httpx.AsyncClient() as client:
+        r = await client.get(url, headers=headers)
+        r.raise_for_status()
+        data = r.json()
+        # Simplify the data for frontend
+        simplified = [
+            {
+                "name": album["name"],
+                "artists": [a["name"] for a in album["artists"]],
+                "release_date": album["release_date"],
+                "total_tracks": album["total_tracks"],
+                "url": album["external_urls"]["spotify"],
+            }
+            for album in data.get("albums", {}).get("items", [])
+        ]
+        return simplified
+
+class Imagen(BaseModel):
+    titulo: str
+    url: Optional[str] = None
+
+class PostCreate(BaseModel):
+    contenido: str
+    image_id: Optional[int] = None
+    fecha: Optional[datetime] = None
+
+class PostUpdate(BaseModel):
+    contenido: Optional[str] = None
+    image_id: Optional[int] = None
+
+class Post(BaseModel):
+    id: Optional[int]
+    autor: str
+    fecha: datetime
+    foto: Optional[Imagen]
+    contenido: str
+
 @app.on_event("startup")
 async def startup_event():
     await crud.init_db()
@@ -34,13 +95,18 @@ async def startup_event():
 async def shutdown_event():
     await crud.close_db()
 
+async def get_current_user(x_user: str = Header(...)):
+    if not x_user:
+        raise HTTPException(status_code=401, detail="Unauthorized")
+    return x_user
+
 # -----------
 #     GET
 # -----------
 @app.get("/", response_model=List[Post])
 async def obtener_posts(limit: int = 10, offset: int = 0):
     """Return paginated posts from the database."""
-    return crud.get_posts(limit=limit, offset=offset)
+    return await crud.get_posts(limit=limit, offset=offset)
 
 @app.get("/posts/{post_id}", response_model=Post)
 async def obtener_post(post_id: int):
@@ -54,47 +120,54 @@ async def obtener_post(post_id: int):
 #    POST
 # -----------
 @app.post("/posts", response_model=int)
-async def crear_post(post: Post):
+async def crear_post(post: PostCreate, user: str = Depends(get_current_user)):
     """Create a new post and return its ID."""
     post_id = await crud.create_post(
         autor_id=None,
-        autor=post.autor,
+        autor=user,
         contenido=post.contenido,
         fecha=post.fecha,
-        image_id=None
+        image_id=post.image_id
     )
     return post_id
 
 # ------------
-#     PUT
+#     PATCH
 # ------------
-@app.put("/posts/{post_id}")
-async def actualizar_post(post_id: int, post: Post):
-    """Update an existing post."""
+@app.patch("/posts/{post_id}")
+async def actualizar_post(post_id: int, post: PostUpdate, user: str = Depends(get_current_user)):
+    """Update an existing post if the user is the author."""
+    existing_post = await crud.get_post_by_id(post_id)
+    if not existing_post:
+        raise HTTPException(status_code=404, detail="Post not found")
+    if existing_post["autor"] != user:
+        raise HTTPException(status_code=403, detail="You cannot edit this post")
+
     updated = await crud.update_post(
         post_id=post_id,
         contenido=post.contenido,
-        image_id=None
+        image_id=post.image_id
     )
-    if not updated:
-        raise HTTPException(status_code=404, detail="Post not found")
-    return {"status": "success"}
+    return {"updated": updated}
 
 # ------------
 #    DELETE
 # ------------
 @app.delete("/posts/{post_id}")
-async def eliminar_post(post_id: int):
-    """Delete a post by ID."""
-    deleted = await crud.delete_post(post_id)
-    if not deleted:
+async def eliminar_post(post_id: int, user: str = Depends(get_current_user)):
+    """Delete a post by ID if the user is the author."""
+    existing_post = await crud.get_post_by_id(post_id)
+    if not existing_post:
         raise HTTPException(status_code=404, detail="Post not found")
-    return {"status": "success"}
+    if existing_post["autor"] != user:
+        raise HTTPException(status_code=403, detail="You cannot delete this post")
+
+    deleted = await crud.delete_post(post_id)
+    return {"deleted": deleted}
 
 # ------------
 #    HEALTH
 # ------------
 @app.get("/health")
 async def health():
-    # Basic health check. Later you can add an external API probe here (Spotify call).
     return {"status": "ok"}
