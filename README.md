@@ -5,3 +5,4 @@ Segundo proyecto para la materia Introducción al Desarrollo Web
 
 Abraham Martínez Cerón  
 Giuseppe Valencia Carrillo
+Xóchitl Axalli López Chavarría
