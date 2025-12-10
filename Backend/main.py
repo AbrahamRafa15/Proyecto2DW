@@ -170,4 +170,15 @@ async def eliminar_post(post_id: int, user: str = Depends(get_current_user)):
 # ------------
 @app.get("/health")
 async def health():
-    return {"status": "ok"}
+    """Checamos que la API esté funcionando correctamente así como la API de Spotify."""
+    spotify_ok = False
+    try:
+        token = await get_spotify_token()
+        spotify_ok = token is not None
+    except Exception:
+        spotify_ok = False
+
+    return {
+        "status": "ok",
+        "spotify": "ok" if spotify_ok else "error"
+    }
