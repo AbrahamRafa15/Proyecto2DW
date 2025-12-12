@@ -66,3 +66,21 @@ button:focus-visible {
     background-color: #f9f9f9;
   }
 }
+
+:root{
+  --fb-bg: #dbe2ec;
+  --fb-card: #c9c9c9;
+  --fb-border: #e5e7eb;
+  --fb-text: #111827;
+  --fb-muted: #6b7280;
+}
+
+body{
+  background: var(--fb-bg);
+  color: var(--fb-text);
+}
+
+body {
+  background: #e9edf5 !important;
+}
+

@@ -7,10 +7,10 @@ export default function ThinkBar({
     onPublish,
 }) {
     return (
-    <div className="card mb-3">
+    <div className="fb-card p-3 mb-3">
         <div className="card-body">
             <textarea
-                className="form-control mb-2"
+                className="form-control border-0 "
                 rows={4}
                 placeholder="¿Qué piensas?"
                 value={text}

@@ -3,6 +3,7 @@ import React, { useEffect, useState } from "react";
 import TopBar from "./components/TopBar";
 import CenterFeed from "./components/CenterFeed";
 import RightBar from "./components/RightBar";
+import LeftBar from "./components/LeftBar";
 
 const API_URL = import.meta.env.VITE_API_URL ?? "http://127.0.0.1:8000";
 
@@ -104,7 +105,6 @@ export default function App() {
 
   return (
     <div>
-      <div className="container">
         <TopBar
           user={user}
           userInput={userInput}
@@ -112,30 +112,34 @@ export default function App() {
           onLogin={onLogin}
           onLogout={onLogout}
         />
-      </div>
 
       <div className="container">
-        <div className="row">
+        <div className="row g-3">
+          {/* Izquierda */}
+          <div className="col-lg-3">
+            <LeftBar />
+          </div>
+
           {/* Centro */}
-          <div className="col-12 col-lg-8">
-            {loadingPosts ? (
-              <div>Cargando feed…</div>
-            ) : (
-              <CenterFeed
-                user={user}
-                text={text}
-                setText={setText}
-                imageUrl={imageUrl}
-                setImageUrl={setImageUrl}
-                canPost={canPost}
-                onPublish={onPublish}
-                posts={posts}
-              />
+          <div className="col-12 col-lg-6">
+              {loadingPosts ? (
+                  <div>Cargando feed…</div>
+              ) : (
+            <CenterFeed
+              user={user}
+              text={text}
+              setText={setText}
+              imageUrl={imageUrl}
+              setImageUrl={setImageUrl}
+              canPost={canPost}
+              onPublish={onPublish}
+              posts={posts}
+            />
             )}
           </div>
 
           {/* Derecha */}
-          <div className="col-12 col-lg-4">
+          <div className="col-lg-3">
             <RightBar />
           </div>
         </div>

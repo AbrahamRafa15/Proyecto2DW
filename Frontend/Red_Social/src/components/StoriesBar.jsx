@@ -9,8 +9,8 @@ export default function StoriesBar() {
     ];
 
     return (
-        <div className="card mb-3">
-        <div className="card-body py-3">
+        <div className="fb-card p-3 mb-3">
+        
         <div className="d-flex gap-3 overflow-auto">
             {stories.map((s, idx) => (
                 <div
@@ -46,7 +46,6 @@ export default function StoriesBar() {
             </div>
             ))}
             </div>
-        </div>
     </div>
     );
 }
