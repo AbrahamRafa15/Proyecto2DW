@@ -1,25 +1,41 @@
 export default function PostBar({ posts }) {
-    if (!posts || posts.length === 0) {
+  if (!posts || posts.length === 0) {
     return <div className="alert alert-secondary">No hay posts todavía.</div>;
-    }
+  }
 
-    return (
+  return (
     <div className="d-flex flex-column gap-3">
-        {posts.map((p) => (
-        <div className="card" key={p.id ?? `${p.user}-${p.created_at}-${p.text}`}>
+      {posts.map((p) => {
+        // El backend manda todo el texto en `contenido`
+        // Usamos la primera línea como texto y la segunda (si existe) como imagen
+        const lineas = (p.contenido || "").split("\n");
+        const texto = lineas[0] || "";
+        const imagen = lineas.length > 1 ? lineas[1] : null;
+
+        return (
+          <div className="card" key={p.id}>
             <div className="card-body">
-            <div className="fw-bold">{p.user}</div>
-            <div className="mt-2">{p.text}</div>
-                {p.image_url && (
-                    <img
-                    src={p.image_url}
-                    alt="post"
-                    className="img-fluid rounded mt-2"
-                    />
-                )}
+              <div className="fw-bold">{p.autor}</div>
+
+              {p.fecha && (
+                <div className="text-muted small">
+                  {new Date(p.fecha).toLocaleString()}
+                </div>
+              )}
+
+              <div className="mt-2">{texto}</div>
+
+              {imagen && (
+                <img
+                  src={imagen}
+                  alt="post"
+                  className="img-fluid rounded mt-2"
+                />
+              )}
             </div>
-        </div>
-        ))}
+          </div>
+        );
+      })}
     </div>
-    );
+  );
 }
