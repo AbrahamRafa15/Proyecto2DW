@@ -35,9 +35,11 @@ async def get_spotify_token():
 
 app = FastAPI(title="Proyecto2DW API", version="1.0")
 
+FRONTEND_ORIGIN = os.getenv("FRONTEND_ORIGIN", "http://localhost:5173")
+
 app.add_middleware(
     CORSMiddleware,
-    allow_origins=["*"], 
+    allow_origins=[FRONTEND_ORIGIN],
     allow_credentials=True,
     allow_methods=["*"],
     allow_headers=["*"],
@@ -103,18 +105,39 @@ async def get_current_user(x_user: str = Header(...)):
 # -----------
 #     GET
 # -----------
-@app.get("/", response_model=List[Post])
+@app.get("/posts", response_model=List[Post])
 async def obtener_posts(limit: int = 10, offset: int = 0):
     """Return paginated posts from the database."""
-    return await crud.get_posts(limit=limit, offset=offset)
+    rows = await crud.get_posts(limit=limit, offset=offset)
+
+    posts: List[Post] = []
+    for r in rows:
+        posts.append(
+            Post(
+                id=r["id"],
+                autor=r["autor"],
+                fecha=r["fecha"],
+                contenido=r["contenido"],
+                foto=None,
+            )
+        )
+
+    return posts
 
 @app.get("/posts/{post_id}", response_model=Post)
 async def obtener_post(post_id: int):
     """Return a single post by ID."""
-    post = await crud.get_post_by_id(post_id)
-    if post is None:
+    r = await crud.get_post_by_id(post_id)
+    if r is None:
         raise HTTPException(status_code=404, detail="Post not found")
-    return post
+
+    return Post(
+        id=r["id"],
+        autor=r["autor"],
+        fecha=r["fecha"],
+        contenido=r["contenido"],
+        foto=None,
+    )
 
 # -----------
 #    POST
