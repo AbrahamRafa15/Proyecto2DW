@@ -11,31 +11,31 @@ const items = [
 return (
     <div className="d-none d-lg-block">
         <div className="fb-sticky">
-            <div className="fb-card p-3">
-                <div className="d-flex align-items-center gap-2 mb-2">
-                    <div
-                        className="rounded-circle bg-light border"
-                        style={{ width: 36, height: 36 }}
-                    />
-                    <div className="fw-semibold">Tu perfil</div>
-                </div>
+        <div className="fb-card p-3">
+        <div className="d-flex align-items-center gap-2 mb-3">
+            <div
+                className="rounded-circle bg-light border"
+                style={{ width: 36, height: 36 }}
+            />
+                <div className="fw-semibold">Tu perfil</div>
+            </div>
 
-        <div className="d-flex flex-column">
+            <div className="d-flex flex-column gap-2">
             {items.map((it) => (
                 <button
                     key={it.label}
-                    className="fb-left-btn d-flex align-items-center gap-2 text-start"
+                    className="btn btn-light text-start d-flex align-items-center gap-2"
                     type="button"
                 >
                 <i
                     className={`bi ${it.icon}`}
-                    style={{ fontSize: 18, width: 22, display: "inline-block" }}
+                    style={{ fontSize: 18, width: 22, textAlign: "center" }}
                 ></i>
-                    <span className="fw-semibold">{it.label}</span>
+                <span className="fw-semibold">{it.label}</span>
                 </button>
             ))}
-                </div>
             </div>
+        </div>
         </div>
     </div>
 );
