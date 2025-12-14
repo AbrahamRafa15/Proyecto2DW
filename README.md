@@ -79,6 +79,9 @@ Permite verificar que todo esté bien, esperamos una respuesta como la siguiente
 }
 ```
 
+En producción:
+Se puede checar con el siguiente enlace [Render](https://proyecto2dw.onrender.com/health)
+
 ### Pruebas rápidas
 Puedes probar los endpoints fácilmente desde Swagger UI: [docs](http://127.0.0.1:8000/docs)
 
@@ -141,3 +144,6 @@ El backend valida que solo el autor de una publicación pueda actualizarla o eli
 - Se regresa `HTTP=401` si no se envía usuario.
 - Se regresa `HTTP=403` si el usuario no es el autor del post.
 
+### Liga de la página
+
+[Red_Social](https://abrahamrafa15.github.io/Proyecto2DW/)
