@@ -1,4 +1,4 @@
-export default function PostBar({ posts }) {
+export default function PostBar({ posts, user, onUpdatePost, onDeletePost, onStartEditPost }) {
   if (!posts || posts.length === 0) {
     return <div className="alert alert-secondary">No hay posts todavía.</div>;
   }
@@ -33,11 +33,30 @@ export default function PostBar({ posts }) {
                 />
               )}
 
+              {user && p.autor === user && (
+                <div className="mt-2 d-flex gap-2">
+                  <button
+                    className="btn btn-sm btn-outline-primary"
+                    onClick={() => onStartEditPost(p)}
+                  >
+                    Editar
+                  </button>
+                  <button
+                    className="btn btn-sm btn-outline-danger"
+                    onClick={() => onDeletePost(p.id)}
+                  >
+                    Eliminar
+                  </button>
+                </div>
+              )}
+
               <div className="mt-3">
                 <button
                   className="btn btn-outline-secondary btn-sm"
                   onClick={() => {
-                    const ogUrl = `${import.meta.env.VITE_API_URL || "http://localhost:8000"}/og/posts/${p.id}`;
+                    const ogUrl = `${
+                      import.meta.env.VITE_API_URL || "http://localhost:8000"
+                    }/og/posts/${p.id}`;
                     navigator.clipboard.writeText(ogUrl);
                     alert("Link copiado para compartir ✨");
                   }}
