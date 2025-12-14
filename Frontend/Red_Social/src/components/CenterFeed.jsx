@@ -11,6 +11,12 @@ export default function CenterFeed({
     canPost,
     onPublish,
     posts,
+    onUpdatePost,
+    onDeletePost,
+    editingPostId,
+    onStartEditPost,
+    onCancelEdit,
+    onSubmitPost,
 }) {
     return (
     <div className="mx-auto" style={{ maxWidth: 680 }}>
@@ -22,10 +28,17 @@ export default function CenterFeed({
             imageUrl={imageUrl}
             setImageUrl={setImageUrl}
             canPost={canPost}
-            onPublish={onPublish}
+            onSubmit={onSubmitPost}
+            isEditing={Boolean(editingPostId)}
+            onCancelEdit={onCancelEdit}
         />
 
-        <PostBar posts={posts} />
+        <PostBar posts={posts} 
+            user={user}
+            onUpdatePost={onUpdatePost}
+            onDeletePost={onDeletePost}
+            onStartEditPost={onStartEditPost}
+        />
     </div>
     );
 }

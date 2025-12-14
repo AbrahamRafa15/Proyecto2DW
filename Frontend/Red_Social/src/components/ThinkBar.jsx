@@ -5,6 +5,9 @@ export default function ThinkBar({
     setImageUrl,
     canPost,
     onPublish,
+    isEditing,
+    onCancelEdit,
+    onSubmit,   
 }) {
     return (
     <div className="fb-card p-3 mb-3">
@@ -24,9 +27,16 @@ export default function ThinkBar({
                 value={imageUrl}
                 onChange={(e) => setImageUrl(e.target.value)}
             />
-            <button className="btn btn-primary" onClick={onPublish} disabled={!canPost}>
-                Publicar
+            <button className="btn btn-primary" onClick={onSubmit} disabled={!canPost}>
+                {isEditing ? "Actualizar" : "Publicar"}
             </button>
+
+            {isEditing && (
+            <button className="btn btn-outline-secondary" onClick={onCancelEdit}>
+            Cancelar
+            </button>
+            )}
+            
         </div>
 
         {!canPost && (

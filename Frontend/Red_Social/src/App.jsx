@@ -38,6 +38,7 @@ const toggleTheme = () => {
 };
 
 
+
   // ===== Composer (ThinkBar) =====
   const [text, setText] = useState("");
   const [imageUrl, setImageUrl] = useState("");
@@ -116,6 +117,84 @@ const toggleTheme = () => {
     }
   };
 
+  const onUpdatePost = async (postId) => {
+  if (!user) return;
+
+  const contenido = text.trim();
+  if (!contenido) return;
+
+  try {
+    const payload = {
+      contenido: contenido + (imageUrl ? `\n${imageUrl}` : ""),
+      image_id: null,
+    };
+
+    const res = await fetch(`${API_URL}/posts/${postId}`, {
+      method: "PATCH",
+      headers: {
+        "Content-Type": "application/json",
+        "x-user": user,
+      },
+      body: JSON.stringify(payload),
+    });
+
+    if (!res.ok) throw new Error(`HTTP ${res.status}`);
+
+    setText("");
+    setImageUrl("");
+
+    localStorage.removeItem("posts_cache");
+    localStorage.removeItem("posts_cache_ts");
+    await loadPosts();
+  } catch (err) {
+    console.error("update post", err);
+    alert("Error al editar el post");
+  }
+  };
+
+  const onDeletePost = async (postId) => {
+  if (!user) return;
+  if (!window.confirm("¿Eliminar este post?")) return;
+
+  try {
+    const res = await fetch(`${API_URL}/posts/${postId}`, {
+      method: "DELETE",
+      headers: { "x-user": user },
+    });
+
+    if (!res.ok) throw new Error(`HTTP ${res.status}`);
+
+    localStorage.removeItem("posts_cache");
+    localStorage.removeItem("posts_cache_ts");
+    await loadPosts();
+  } catch (err) {
+    console.error("delete post", err);
+    alert("Error al eliminar el post");
+  }
+  };
+
+  //Modo para editar
+  const [editingPostId, setEditingPostId] = useState(null);
+
+  const onStartEditPost = (post) => {
+    setEditingPostId(post.id);
+    const lineas = (post.contenido || "").split("\n");
+    setText(lineas[0] || "");
+    setImageUrl(lineas[1] || "");
+  };
+
+  const onCancelEdit = () => {
+    setEditingPostId(null);
+    setText("");
+    setImageUrl("");
+  };
+
+  const onSubmitPost = async () => {
+    if (editingPostId) return onUpdatePost(editingPostId);
+    return onPublish();
+  };
+
+
   return (
     <div>
         <TopBar
@@ -149,6 +228,12 @@ const toggleTheme = () => {
                 canPost={canPost}
                 onPublish={onPublish}
                 posts={posts}
+                onUpdatePost={onUpdatePost}
+                onDeletePost={onDeletePost}
+                editingPostId={editingPostId}
+                onStartEditPost={onStartEditPost}
+                onCancelEdit={onCancelEdit}
+                onSubmitPost={onSubmitPost}
               />
             )}
           </div>
