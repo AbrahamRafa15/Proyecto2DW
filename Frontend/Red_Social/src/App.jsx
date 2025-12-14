@@ -10,6 +10,26 @@ import LeftBar from "./components/LeftBar";
 const API_URL = import.meta.env.VITE_API_URL ?? "http://127.0.0.1:8000";
 
 export default function App() {
+  // ===== Estado de Health =====
+  const [apiHealth, setApiHealth] = useState(null);
+
+  useEffect(() => {
+    const checkHealth = async () => {
+      try {
+        const res = await fetch(`${API_URL}/health`);
+        if (!res.ok) throw new Error(`HTTP ${res.status}`);
+        const data = await res.json();
+        setApiHealth(data.status || "OK");
+      } catch (err) {
+        console.error("API health check failed:", err);
+        setApiHealth("DOWN");
+      }
+    };
+
+    checkHealth();
+    const interval = setInterval(checkHealth, 1000 * 60); // cada 1 min
+    return () => clearInterval(interval);
+  }, []);
   // ===== Sesión =====
   const [user, setUser] = useState(sessionStorage.getItem("current_user"));
   const [userInput, setUserInput] = useState("");
@@ -208,7 +228,15 @@ const toggleTheme = () => {
         theme={theme}
         onToggleTheme={toggleTheme}
       />
-
+      {/* Utilizarlo en caso de que se quiera ver visualmente el estado de la API
+      {apiHealth && (
+        <div style={{ padding: "0.5rem", textAlign: "center" }}>
+          API Status: <strong style={{ color: apiHealth === "OK" ? "green" : "red" }}>
+            {apiHealth}
+          </strong>
+        </div>
+      )}
+      */}
       <Routes>
         <Route
           path="/"
