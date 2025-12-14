@@ -6,6 +6,7 @@ import TopBar from "./components/TopBar";
 import CenterFeed from "./components/CenterFeed";
 import RightBar from "./components/RightBar";
 import LeftBar from "./components/LeftBar";
+import PostPage from "./components/PostPage";
 
 const API_URL = import.meta.env.VITE_API_URL ?? "http://127.0.0.1:8000";
 
@@ -238,6 +239,7 @@ const toggleTheme = () => {
       )}
       */}
       <Routes>
+        <Route path="/posts/:id" element={<PostPage user={user} />} />
         <Route
           path="/"
           element={
