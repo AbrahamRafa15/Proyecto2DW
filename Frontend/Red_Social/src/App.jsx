@@ -2,6 +2,8 @@ import React, { useEffect, useState } from "react";
 
 import { Routes, Route } from "react-router-dom";
 
+import "./App.css";
+
 import TopBar from "./components/TopBar";
 import CenterFeed from "./components/CenterFeed";
 import RightBar from "./components/RightBar";
