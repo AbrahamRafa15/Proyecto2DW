@@ -7,6 +7,28 @@
   border-bottom: 2px solid rgba(58,111,125,0.35);
 }
 
+.fb-topbar-content{
+  flex-wrap: wrap;
+}
+
+.fb-top-brand{
+  flex: 1 1 auto;
+  min-width: 0;
+}
+
+.fb-top-actions{
+  flex: 1 1 auto;
+  justify-content: flex-end;
+}
+
+.fb-top-userinput{
+  width: 220px;
+}
+
+.fb-top-themebtn{
+  flex: 0 0 auto;
+}
+
 /* Marca / título */
 .fb-brand{
   font-weight: 800;
@@ -32,4 +54,66 @@
 /* Texto muted */
 .fb-muted{
   color: var(--fb-muted);
+}
+
+.fb-navicon-img {
+    width: 66px;
+    height: 66px;
+    object-fit: contain;
+    display: block;
+    flex: 0 0 auto;
+}
+
+.fb-leftitem {
+    border-radius: 12px;
+}
+
+
+.fb-top-logo{
+  width: 108px;
+  height: 108px;
+  object-fit: scale-down;
+}
+
+@media (max-width: 991.98px){
+  .fb-top-logo{
+    width: 84px;
+    height: 84px;
+  }
+}
+
+@media (max-width: 767.98px){
+  .fb-topbar-content{
+    flex-direction: column;
+    align-items: flex-start;
+  }
+  .fb-top-actions{
+    width: 100%;
+    justify-content: flex-start;
+    align-items: stretch;
+    gap: 0.5rem;
+  }
+  .fb-top-themebtn{
+    align-self: flex-start;
+  }
+  .fb-top-userinput{
+    width: 100%;
+  }
+  .fb-top-actions .btn:not(.fb-top-themebtn){
+    width: 100%;
+  }
+  .fb-navicon-img{
+    width: 44px;
+    height: 44px;
+  }
+}
+
+@media (max-width: 575.98px){
+  .fb-top-logo{
+    width: 64px;
+    height: 64px;
+  }
+  .fb-brand{
+    font-size: 16px;
+  }
 }
