@@ -155,7 +155,7 @@ const toggleTheme = () => {
 
           {/* Derecha (solo en escritorio) */}
           <div className="col-lg-3 d-none d-lg-block">
-            <RightBar />
+            <RightBar apiUrl={API_URL} />
           </div>
         </div>
       </div>
