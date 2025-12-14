@@ -1,92 +1,35 @@
-#root {
-  max-width: 1280px;
-  margin: 0 auto;
-  padding: 2rem;
-  text-align: center;
-}
-
-.logo {
-  height: 6em;
-  padding: 1.5em;
-  will-change: filter;
-  transition: filter 300ms;
-}
-.logo:hover {
-  filter: drop-shadow(0 0 2em #646cffaa);
-}
-.logo.react:hover {
-  filter: drop-shadow(0 0 2em #61dafbaa);
-}
-
-@keyframes logo-spin {
-  from {
-    transform: rotate(0deg);
-  }
-  to {
-    transform: rotate(360deg);
-  }
-}
-
-@media (prefers-reduced-motion: no-preference) {
-  a:nth-of-type(2) .logo {
-    animation: logo-spin infinite 20s linear;
-  }
-}
-
-.card {
-  padding: 2em;
-}
-
-.fb-card{
-  background: #f66c6c;
-  border: 1px solid #e5e7eb;
-  border-radius: 12px;
-  box-shadow: 0 1px 2px rgba(0,0,0,0.08);
-}
-
-.fb-title{
-  font-size: 20px;
-  font-weight: 700;
-}
-
+/* Topbar sticky */
 .fb-topbar{
   position: sticky;
   top: 0;
   z-index: 1000;
-  background: #fff;
-  border-bottom: 1px solid #e5e7eb;
+  background: var(--fb-card);
+  border-bottom: 1px solid var(--fb-border);
 }
 
-.fb-topbar{
-  position: sticky;
-  top: 0;
-  z-index: 1000;
-  background: #ffffff;
-  border-bottom: 1px solid #e5e7eb;
-}
-
+/* Marca / título */
 .fb-brand{
   font-weight: 800;
   font-size: 18px;
   line-height: 1;
 }
 
-.read-the-docs {
-  color: #888;
+/* Tarjetas */
+.fb-card{
+  background: var(--fb-card);
+  border: 1px solid var(--fb-border);
+  border-radius: 12px;
+  box-shadow: 0 1px 2px rgba(0,0,0,0.08);
+  color: var(--fb-text);
 }
 
+/* Sticky para sidebars */
 .fb-sticky{
   position: sticky;
   top: 64px;
 }
-.fb-left-btn{
-  border: 0;
-  background: transparent;
-  border-radius: 10px;
-  padding: 10px 12px;
-}
 
-.fb-left-btn:hover{
-  background: rgba(0,0,0,0.06);
+/* Texto muted */
+.fb-muted{
+  color: var(--fb-muted);
 }
-

@@ -25,6 +25,19 @@ export default function App() {
     setUser(null);
   };
 
+  // ===== Tema (claro/oscuro) =====
+const [theme, setTheme] = useState(localStorage.getItem("theme") || "light");
+
+useEffect(() => {
+  document.body.dataset.theme = theme; // "light" o "dark"
+  localStorage.setItem("theme", theme);
+}, [theme]);
+
+const toggleTheme = () => {
+  setTheme((t) => (t === "dark" ? "light" : "dark"));
+};
+
+
   // ===== Composer (ThinkBar) =====
   const [text, setText] = useState("");
   const [imageUrl, setImageUrl] = useState("");
@@ -111,35 +124,37 @@ export default function App() {
           setUserInput={setUserInput}
           onLogin={onLogin}
           onLogout={onLogout}
+          theme={theme}
+          onToggleTheme={toggleTheme}
         />
-
+      
       <div className="container">
         <div className="row g-3">
-          {/* Izquierda */}
-          <div className="col-lg-3">
+          {/* Izquierda (solo escritorio) */}
+          <div className="col-lg-3 d-none d-lg-block">
             <LeftBar />
           </div>
 
           {/* Centro */}
           <div className="col-12 col-lg-6">
-              {loadingPosts ? (
-                  <div>Cargando feed…</div>
-              ) : (
-            <CenterFeed
-              user={user}
-              text={text}
-              setText={setText}
-              imageUrl={imageUrl}
-              setImageUrl={setImageUrl}
-              canPost={canPost}
-              onPublish={onPublish}
-              posts={posts}
-            />
+            {loadingPosts ? (
+              <div>Cargando feed…</div>
+            ) : (
+              <CenterFeed
+                user={user}
+                text={text}
+                setText={setText}
+                imageUrl={imageUrl}
+                setImageUrl={setImageUrl}
+                canPost={canPost}
+                onPublish={onPublish}
+                posts={posts}
+              />
             )}
           </div>
 
-          {/* Derecha */}
-          <div className="col-lg-3">
+          {/* Derecha (solo en escritorio) */}
+          <div className="col-lg-3 d-none d-lg-block">
             <RightBar />
           </div>
         </div>
