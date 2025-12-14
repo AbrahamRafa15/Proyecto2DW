@@ -4,7 +4,7 @@
   top: 0;
   z-index: 1000;
   background: var(--fb-card);
-  border-bottom: 1px solid var(--fb-border);
+  border-bottom: 2px solid rgba(58,111,125,0.35);
 }
 
 /* Marca / título */
