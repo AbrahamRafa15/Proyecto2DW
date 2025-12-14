@@ -22,20 +22,22 @@ body{
 
 /* ===== CLARO, por defecto ===== */
 :root{
-  --fb-bg: #f0f2f5;
-  --fb-card: #ffffff;
-  --fb-border: #e5e7eb;
-  --fb-text: #111827;
-  --fb-muted: #6b7280;
+  --fb-bg: #E1E7E5;      /* Gris perla frío (fondo) */
+  --fb-card: #F7F9F8;    /* Blanco porcelana (tarjetas) */
+  --fb-border: #9FD3C7;  /* Verde jade claro (borde/acento suave) */
+  --fb-text: #2F3E46;    /* Gris pizarra (texto) */
+  --fb-muted: #3A6F7D;   /* Azul océano suave (muted) */
+  --fb-accent: #3A6F7D;  /* Azul océano suave (acciones) */
 }
 
 /* ===== OSCURO ===== */
 body[data-theme="dark"]{
-  --fb-bg: #18191a;
-  --fb-card: #242526;
-  --fb-border: #3a3b3c;
-  --fb-text: #e4e6eb;
-  --fb-muted: #b0b3b8;
+  --fb-bg: #0B2D33;      /* Azul abismo (fondo) */
+  --fb-card: #1E3A3F;    /* Gris petróleo (tarjetas) */
+  --fb-border: #112F2B;  /* Verde bosque oscuro (bordes) */
+  --fb-text: #EAF3F1;    /* Blanco niebla (texto) */
+  --fb-muted: #9FD3C7;   /* Jade claro (muted suave) */
+  --fb-accent: #5ED1C6;  /* Turquesa elegante (acento en acciones) */
 
   color-scheme: dark;
 }
@@ -47,8 +49,8 @@ html, body, #root{
 }
 
 body[data-theme="dark"] .form-control{
-  background: #3a3b3c;
-  border-color: #3a3b3c;
+  background: var(--fb-card);
+  border-color: var(--fb-border);
   color: var(--fb-text);
 }
 
@@ -57,8 +59,28 @@ body[data-theme="dark"] .form-control::placeholder{
 }
 
 body[data-theme="dark"] .btn-light{
-  background: #3a3b3c;
-  border-color: #3a3b3c;
+  background: var(--fb-card);
+  border-color: var(--fb-border);
   color: var(--fb-text);
+}
+
+/* ===== Bootstrap botones ===== */
+
+.btn-primary{
+  --bs-btn-bg: var(--fb-accent);
+  --bs-btn-border-color: var(--fb-accent);
+  --bs-btn-hover-bg: var(--fb-accent);
+  --bs-btn-hover-border-color: var(--fb-accent);
+  --bs-btn-active-bg: var(--fb-accent);
+  --bs-btn-active-border-color: var(--fb-accent);
+  --bs-btn-color: #F7F9F8; /* texto claro en modo claro */
+}
+
+body[data-theme="dark"] .btn-primary{
+  --bs-btn-color: #0B2D33; /* texto oscuro sobre turquesa */
+}
+
+.text-primary{
+  color: var(--fb-accent);
 }
 
