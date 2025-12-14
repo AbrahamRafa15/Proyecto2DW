@@ -90,6 +90,7 @@ curl http://127.0.0.1:8000/health
 
 El frontend del proyecto está desarrollado en **React** y se encarga de mostrar el feed tipo Facebook, así como de permitir al usuario crear, actualizar y eliminar publicaciones consumiendo los endpoints del backend.
 
+```
 PROYECTO2DW/
 ├── Frontend/
 │ ├── index.html
@@ -102,7 +103,7 @@ PROYECTO2DW/
 │ │ ├── pages/ # Vistas o secciones principales (si aplica)
 │ │ ├── services/ # Lógica para llamadas al backend (fetch/axios) (si aplica)
 │ │ └── assets/
-
+```
 
 ### Tecnologías usadas
 
