@@ -32,6 +32,19 @@ export default function PostBar({ posts }) {
                   className="img-fluid rounded mt-2"
                 />
               )}
+
+              <div className="mt-3">
+                <button
+                  className="btn btn-outline-secondary btn-sm"
+                  onClick={() => {
+                    const ogUrl = `${import.meta.env.VITE_API_URL || "http://localhost:8000"}/og/posts/${p.id}`;
+                    navigator.clipboard.writeText(ogUrl);
+                    alert("Link copiado para compartir ✨");
+                  }}
+                >
+                  Compartir
+                </button>
+              </div>
             </div>
           </div>
         );
