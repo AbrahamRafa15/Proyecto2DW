@@ -1,5 +1,7 @@
 import React, { useEffect, useState } from "react";
 
+import { Routes, Route } from "react-router-dom";
+
 import TopBar from "./components/TopBar";
 import CenterFeed from "./components/CenterFeed";
 import RightBar from "./components/RightBar";
@@ -197,53 +199,62 @@ const toggleTheme = () => {
 
   return (
     <div>
-        <TopBar
-          user={user}
-          userInput={userInput}
-          setUserInput={setUserInput}
-          onLogin={onLogin}
-          onLogout={onLogout}
-          theme={theme}
-          onToggleTheme={toggleTheme}
+      <TopBar
+        user={user}
+        userInput={userInput}
+        setUserInput={setUserInput}
+        onLogin={onLogin}
+        onLogout={onLogout}
+        theme={theme}
+        onToggleTheme={toggleTheme}
+      />
+
+      <Routes>
+        <Route
+          path="/"
+          element={
+            <div className="container">
+              <div className="row g-3">
+                <div className="col-lg-3 d-none d-lg-block">
+                  <LeftBar />
+                </div>
+
+                <div className="col-12 col-lg-6">
+                  {loadingPosts ? (
+                    <div>Cargando feed…</div>
+                  ) : (
+                    <CenterFeed
+                      user={user}
+                      text={text}
+                      setText={setText}
+                      imageUrl={imageUrl}
+                      setImageUrl={setImageUrl}
+                      canPost={canPost}
+                      onPublish={onPublish}
+                      posts={posts}
+                      onUpdatePost={onUpdatePost}
+                      onDeletePost={onDeletePost}
+                      editingPostId={editingPostId}
+                      onStartEditPost={onStartEditPost}
+                      onCancelEdit={onCancelEdit}
+                      onSubmitPost={onSubmitPost}
+                    />
+                  )}
+                </div>
+
+                <div className="col-lg-3 d-none d-lg-block">
+                  <RightBar apiUrl={API_URL} />
+                </div>
+              </div>
+            </div>
+          }
         />
-      
-      <div className="container">
-        <div className="row g-3">
-          {/* Izquierda (solo escritorio) */}
-          <div className="col-lg-3 d-none d-lg-block">
-            <LeftBar />
-          </div>
 
-          {/* Centro */}
-          <div className="col-12 col-lg-6">
-            {loadingPosts ? (
-              <div>Cargando feed…</div>
-            ) : (
-              <CenterFeed
-                user={user}
-                text={text}
-                setText={setText}
-                imageUrl={imageUrl}
-                setImageUrl={setImageUrl}
-                canPost={canPost}
-                onPublish={onPublish}
-                posts={posts}
-                onUpdatePost={onUpdatePost}
-                onDeletePost={onDeletePost}
-                editingPostId={editingPostId}
-                onStartEditPost={onStartEditPost}
-                onCancelEdit={onCancelEdit}
-                onSubmitPost={onSubmitPost}
-              />
-            )}
-          </div>
-
-          {/* Derecha (solo en escritorio) */}
-          <div className="col-lg-3 d-none d-lg-block">
-            <RightBar apiUrl={API_URL} />
-          </div>
-        </div>
-      </div>
+        <Route
+          path="*"
+          element={<div className="container mt-4">Página no encontrada</div>}
+        />
+      </Routes>
     </div>
   );
 }
