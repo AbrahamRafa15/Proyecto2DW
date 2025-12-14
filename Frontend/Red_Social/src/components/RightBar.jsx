@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from "react";
+import birthdayIcon from "../assets/CumpleMyDog.svg";
 
 export default function RightBar({ apiUrl }) {
     const [releases, setReleases] = useState([]);
@@ -87,10 +88,14 @@ return (
             <div className="fw-bold mb-2">Cumpleaños</div>
 
             <div className="d-flex align-items-start gap-2">
-            <i className="bi bi-gift-fill" style={{ fontSize: 18 }}></i>
-            <div className="small">
-                Hoy es el cumpleaños de <strong>ABRAHAM Martinez</strong>.
-            </div>
+                <img
+                    src={birthdayIcon}
+                    alt="Cumpleaños"
+                    className="fb-navicon-img"
+                />
+                <div className="small">
+                    Hoy es el cumpleaños de <strong>ABRAHAM Martinez</strong>.
+                </div>
             </div>
 
             <div className="mt-2 fb-muted small">Agregar mas?</div>
