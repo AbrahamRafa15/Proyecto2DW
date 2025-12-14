@@ -50,14 +50,24 @@ export default function PostBar({ posts, user, onUpdatePost, onDeletePost, onSta
                 </div>
               )}
 
-              <div className="mt-3">
+              <div className="mt-3 d-flex gap-2">
+                <button
+                  className="btn btn-outline-primary btn-sm"
+                  onClick={() => {
+                    const baseUrl = window.location.origin + window.location.pathname;
+                    const postUrl = `${baseUrl}#/posts/${p.id}`;
+                    window.location.href = postUrl;
+                  }}
+                >
+                  Ver
+                </button>
+
                 <button
                   className="btn btn-outline-secondary btn-sm"
                   onClick={() => {
-                    const ogUrl = `${
-                      import.meta.env.VITE_API_URL || "http://localhost:8000"
-                    }/og/posts/${p.id}`;
-                    navigator.clipboard.writeText(ogUrl);
+                    const baseUrl = window.location.origin + window.location.pathname;
+                    const postUrl = `${baseUrl}#/posts/${p.id}`;
+                    navigator.clipboard.writeText(postUrl);
                     alert("Link copiado para compartir ✨");
                   }}
                 >
