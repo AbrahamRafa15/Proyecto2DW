@@ -5,11 +5,7 @@ from typing import Optional
 
 load_dotenv()
 
-DB_USER = os.getenv("DB_USER")
-DB_PASSWORD = os.getenv("DB_PASSWORD")
-DB_NAME = os.getenv("DB_NAME")
-DB_HOST = os.getenv("DB_HOST", "localhost")
-DB_PORT = os.getenv("DB_PORT", "5432")
+DATABASE_URL = os.getenv("DATABASE_URL")
 
 # Global pool reference
 pool: Optional[asyncpg.Pool] = None
@@ -18,14 +14,14 @@ async def connect_db():
     """Create a connection pool (idempotent)."""
     global pool
     if pool is None:
+        if not DATABASE_URL:
+            raise RuntimeError("DATABASE_URL is not set")
+
         pool = await asyncpg.create_pool(
-            user=DB_USER,
-            password=DB_PASSWORD,
-            database=DB_NAME,
-            host=DB_HOST,
-            port=DB_PORT,
+            DATABASE_URL,
             min_size=1,
             max_size=10,
+            ssl="require"
         )
     return pool
 
