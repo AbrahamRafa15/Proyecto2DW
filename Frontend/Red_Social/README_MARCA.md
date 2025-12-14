@@ -7,22 +7,24 @@ La interfaz busca sentirse como una red social moderna y limpia, donde el conten
 La paleta se define mediante variables CSS para mantener consistencia en todo el sitio y facilitar el modo oscuro.
 
 ### Tema claro 
-- Fondo general: `--fb-bg: #f0f2f5`
-- Superficies / tarjetas: `--fb-card: #ffffff`
-- Bordes / separadores: `--fb-border: #e5e7eb`
-- Texto principal: `--fb-text: #111827`
-- Texto secundario (muted): `--fb-muted: #6b7280`
+- Fondo general: `--fb-bg: #E1E7E5`
+- Tarjetas/superficies: `--fb-card: #F7F9F8`
+- Bordes/separadores: `--fb-border: #9FD3C7`
+- Texto principal: `--fb-text: #2F3E46`
+- Texto secundario: `--fb-muted: #3A6F7D`
+- Color de marca/acciones: `--fb-accent: #3A6F7D`
 
 ### Tema oscuro
-- Fondo general: `--fb-bg: #18191a`
-- Superficies / tarjetas: `--fb-card: #242526`
-- Bordes / separadores: `--fb-border: #3a3b3c`
-- Texto principal: `--fb-text: #e4e6eb`
-- Texto secundario (muted): `--fb-muted: #b0b3b8`
+- Fondo general: `--fb-bg: #0B2D33`
+- Tarjetas/superficies: `--fb-card: #1E3A3F`
+- Bordes/separadores: `--fb-border: #112F2B`
+- Texto principal: `--fb-text: #EAF3F1`
+- Texto secundario: `--fb-muted: #9FD3C7`
+- Color de marca/acciones: `--fb-accent: #5ED1C6`
 
 ## Por qué esta elección funciona como “marca”
 
-La identidad visual está pensada para que el usuario lea rápido y se ubique sin esfuerzo. El fondo `#f0f2f5` (claro) y `#18191a` (oscuro) reducen distracciones y permiten que las tarjetas `#ffffff` / `#242526` enmarquen el contenido como unidades claras dentro del feed. Los bordes `#e5e7eb` / `#3a3b3c` separan elementos sin recargar la interfaz, y la jerarquía de texto se mantiene con `--fb-text` para lectura principal y `--fb-muted` para información secundaria como fechas, notas o hints.
+La identidad visual está pensada para que el usuario lea rápido y se ubique sin esfuerzo. El fondo `#E1E7E5` (claro) y `#0B2D33` (oscuro) reducen distracciones y permiten que las tarjetas  enmarquen el contenido como unidades claras dentro del feed. Los bordes separan elementos sin recargar la interfaz, y la jerarquía de texto se mantiene con `--fb-text` para lectura principal y `--fb-muted` para información secundaria como fechas, notas o hints.
 
 ## Componentes visuales y consistencia
 
