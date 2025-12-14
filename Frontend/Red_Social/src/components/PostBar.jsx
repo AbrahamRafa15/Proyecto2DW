@@ -13,7 +13,7 @@ export default function PostBar({ posts, user, onUpdatePost, onDeletePost, onSta
         const imagen = lineas.length > 1 ? lineas[1] : null;
 
         return (
-          <div className="card" key={p.id}>
+          <div className="fb-card" key={p.id}>
             <div className="card-body">
               <div className="fw-bold">{p.autor}</div>
 
