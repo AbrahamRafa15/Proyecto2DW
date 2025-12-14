@@ -1,5 +1,6 @@
 from pydantic import BaseModel
 from fastapi import FastAPI, Header, HTTPException, Depends
+from fastapi.responses import HTMLResponse
 from fastapi.middleware.cors import CORSMiddleware
 from datetime import datetime
 import crud
@@ -187,6 +188,54 @@ async def eliminar_post(post_id: int, user: str = Depends(get_current_user)):
 
     deleted = await crud.delete_post(post_id)
     return {"deleted": deleted}
+
+#
+#  OPEN GRAPH
+# ------------
+@app.get("/og/posts/{post_id}", response_class=HTMLResponse)
+async def og_post(post_id: int):
+    """
+    OpenGraph endpoint for a post.
+    This endpoint is meant to be consumed by crawlers (WhatsApp, Facebook, etc.)
+    """
+    r = await crud.get_post_by_id(post_id)
+    if r is None:
+        raise HTTPException(status_code=404, detail="Post not found")
+
+    lineas = (r["contenido"] or "").split("\n")
+    texto = lineas[0] if lineas else ""
+    imagen = lineas[1] if len(lineas) > 1 else ""
+
+    # URL pública base (Render o local)
+    PUBLIC_BASE_URL = os.getenv("PUBLIC_BASE_URL", "http://localhost:8000")
+
+    html = f"""
+    <!DOCTYPE html>
+    <html lang="es">
+    <head>
+        <meta charset="utf-8" />
+        <title>{texto}</title>
+
+        <!-- OpenGraph -->
+        <meta property="og:type" content="article" />
+        <meta property="og:title" content="{texto}" />
+        <meta property="og:description" content="Post de {r['autor']}" />
+        <meta property="og:url" content="{PUBLIC_BASE_URL}/og/posts/{post_id}" />
+        {"<meta property='og:image' content='" + imagen + "' />" if imagen else ""}
+
+        <!-- Twitter -->
+        <meta name="twitter:card" content="summary_large_image" />
+        <meta name="twitter:title" content="{texto}" />
+        <meta name="twitter:description" content="Post de {r['autor']}" />
+        {"<meta name='twitter:image' content='" + imagen + "' />" if imagen else ""}
+    </head>
+    <body>
+        <p>Este enlace es solo para previsualización.</p>
+        <p><strong>{texto}</strong></p>
+    </body>
+    </html>
+    """
+    return HTMLResponse(content=html)
 
 # ------------
 #    HEALTH
