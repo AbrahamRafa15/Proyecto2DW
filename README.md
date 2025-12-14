@@ -86,3 +86,57 @@ O desde la terminal con
 ```bash
 curl http://127.0.0.1:8000/health
 ```
+## Frontend
+
+El frontend del proyecto está desarrollado en **React** y se encarga de mostrar el feed tipo Facebook, así como de permitir al usuario crear, actualizar y eliminar publicaciones consumiendo los endpoints del backend.
+
+PROYECTO2DW/
+├── Frontend/
+│ ├── index.html
+│ ├── package.json
+│ ├── vite.config.js
+│ ├── src/
+│ │ ├── main.jsx
+│ │ ├── App.jsx
+│ │ ├── components/ # Componentes reutilizables del sitio (si aplica)
+│ │ ├── pages/ # Vistas o secciones principales (si aplica)
+│ │ ├── services/ # Lógica para llamadas al backend (fetch/axios) (si aplica)
+│ │ └── assets/
+
+
+### Tecnologías usadas
+
+El frontend está construido con:
+- React
+- Vite
+- Bootstrap
+
+### Levantar el frontend
+
+Se instala dependencias y después levanta el servidor de desarrollo:
+
+```bash
+cd Frontend
+npm install
+npm run dev
+```
+### Componentes
+
+- Se muestran publicaciones con texto e imagen.
+- Formulario para crear publicaciones.
+- Actualizar y eliminar publicaciones (el backend valida autorización del usuario).
+- Cuenta con modo claro/oscuro.
+
+### Conexión con el backend
+
+El frontend consume la API del backend para todas las operaciones de publicaciones (CRUD). Para que funcione correctamente:
+- El backend debe estar corriendo.
+- El frontend debe apuntar a esa URL base (ya sea mediante una constante en el código o mediante variables de entorno).
+
+En caso de que el backend esté en otro puerto o dominio, se debe actualizar la URL base usada por el frontend.
+
+#### Error de usuario
+El backend valida que solo el autor de una publicación pueda actualizarla o eliminarla. Si el usuario no está autorizado:
+- Se regresa `HTTP=401` si no se envía usuario.
+- Se regresa `HTTP=403` si el usuario no es el autor del post.
+
