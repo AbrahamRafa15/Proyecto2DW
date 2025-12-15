@@ -1,7 +1,12 @@
 <!DOCTYPE html>
-<html>
+<html lang="es">
   <head>
-    <meta http-equiv="refresh" content="0; URL=/" />
+    <meta charset="utf-8" />
+    <script>
+      // Redirige cualquier ruta a index.html manteniendo el path
+      const path = window.location.pathname.replace('/Proyecto2DW', '');
+      window.location.replace('/Proyecto2DW/?redirect=' + path);
+    </script>
   </head>
   <body></body>
 </html>
