@@ -56,12 +56,9 @@ export default function PostPage({ user }) {
             )}
           </div>
 
-          <div className="fb-post-footer justify-content-between">
-            <button className="btn fb-btn-ghost" onClick={() => navigate(-1)}>
-              Volver
-            </button>
+          <div className="fb-post-footer justify-content-end">
             <button className="btn fb-btn" onClick={() => navigate("/")}>
-              Ir al feed
+              Regresar al inicio
             </button>
           </div>
         </div>

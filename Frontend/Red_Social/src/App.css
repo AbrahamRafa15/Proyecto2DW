@@ -257,6 +257,7 @@ body[data-theme="dark"] .fb-btn-danger{
   display: flex;
   flex-direction: column;
   gap: 0.85rem;
+  padding: 0.5rem 0.75rem 0.75rem;
 }
 
 .fb-post-text{
@@ -265,12 +266,15 @@ body[data-theme="dark"] .fb-btn-danger{
   line-height: 1.5;
   color: var(--fb-text);
   word-break: break-word;
+  padding: 0.15rem 0.25rem 0.35rem;
 }
 
 .fb-post-media{
   border-radius: 16px;
   overflow: hidden;
   background: rgba(0, 0, 0, 0.05);
+  padding: 0.45rem;
+  box-sizing: border-box;
 }
 
 .fb-post-media img{
@@ -279,6 +283,7 @@ body[data-theme="dark"] .fb-btn-danger{
   height: auto;
   max-height: 420px;
   object-fit: cover;
+  border-radius: 12px;
 }
 
 .fb-post-footer{
