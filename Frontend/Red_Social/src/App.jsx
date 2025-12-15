@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 
-import { Routes, Route } from "react-router-dom";
+import { Routes, Route, useLocation, Navigate } from "react-router-dom";
 
 import "./App.css";
 
@@ -13,6 +13,7 @@ import PostPage from "./components/PostPage";
 const API_URL = import.meta.env.VITE_API_URL ?? "http://127.0.0.1:8000";
 
 export default function App() {
+
   // ===== Estado de Health =====
   const [apiHealth, setApiHealth] = useState(null);
 
@@ -245,7 +246,7 @@ const toggleTheme = () => {
         <Route
           path="/"
           element={
-            <div className="container">
+      <div className="container">
               <div className="row g-3">
                 <div className="col-lg-3 d-none d-lg-block">
                   <LeftBar />
