@@ -57,9 +57,7 @@ export default function PostBar({ posts, user, onUpdatePost, onDeletePost, onSta
                   <button
                     className="btn fb-btn-ghost"
                     onClick={() => {
-                      const baseUrl =
-                        window.location.origin + window.location.pathname;
-                      const postUrl = `${baseUrl}#/posts/${p.id}`;
+                      const postUrl = `${import.meta.env.VITE_API_URL}/og/posts/${p.id}`;
                       window.location.href = postUrl;
                     }}
                   >
@@ -69,9 +67,7 @@ export default function PostBar({ posts, user, onUpdatePost, onDeletePost, onSta
                   <button
                     className="btn fb-btn"
                     onClick={() => {
-                      const baseUrl =
-                        window.location.origin + window.location.pathname;
-                      const postUrl = `${baseUrl}#/posts/${p.id}`;
+                      const postUrl = `${import.meta.env.VITE_API_URL}/og/posts/${p.id}`;
                       navigator.clipboard.writeText(postUrl);
                       alert("Link copiado para compartir ✨");
                     }}
