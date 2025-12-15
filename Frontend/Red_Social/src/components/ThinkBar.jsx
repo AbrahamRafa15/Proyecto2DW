@@ -4,43 +4,50 @@ export default function ThinkBar({
     imageUrl,
     setImageUrl,
     canPost,
-    onPublish,
     isEditing,
     onCancelEdit,
     onSubmit,   
 }) {
     return (
-    <div className="fb-card p-3 mb-3">
+    <div className="fb-card fb-compose mb-3">
         <div className="card-body">
             <textarea
-                className="form-control border-0 "
+                className="form-control fb-compose-textarea border-0"
                 rows={4}
                 placeholder="¿Qué piensas?"
                 value={text}
                 onChange={(e) => setText(e.target.value)}
             /> 
 
-        <div className="d-flex gap-2">
+        <div className="fb-compose-footer mt-3">
             <input
-                className="form-control"
+                className="form-control fb-compose-url"
                 placeholder="URL de imagen (opcional)"
                 value={imageUrl}
                 onChange={(e) => setImageUrl(e.target.value)}
             />
-            <button className="btn btn-primary" onClick={onSubmit} disabled={!canPost}>
-                {isEditing ? "Actualizar" : "Publicar"}
-            </button>
+            <div className="fb-compose-actions">
+                <button
+                    className="btn fb-btn"
+                    onClick={onSubmit}
+                    disabled={!canPost}
+                >
+                    {isEditing ? "Actualizar" : "Publicar"}
+                </button>
 
-            {isEditing && (
-            <button className="btn btn-outline-secondary" onClick={onCancelEdit}>
-            Cancelar
-            </button>
-            )}
-            
+                {isEditing && (
+                <button
+                    className="btn fb-btn-ghost"
+                    onClick={onCancelEdit}
+                >
+                Cancelar
+                </button>
+                )}
+            </div>
         </div>
 
         {!canPost && (
-            <div className="mt-2 text-muted" style={{ fontSize: 14 }}>
+            <div className="fb-compose-hint mt-2">
                 Debes iniciar sesión (usuario) para publicar. El header se enviará como{" "}
                 <code>x-user</code>.
             </div>

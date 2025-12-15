@@ -34,24 +34,38 @@ export default function PostPage({ user }) {
 
   return (
     <div className="container mt-4">
-      <div className="fb-card">
+      <article className="fb-card fb-post-page mx-auto">
         <div className="card-body">
-          <div className="fw-bold">{post.autor}</div>
-          {post.fecha && (
-            <div className="text-muted small">
-              {new Date(post.fecha).toLocaleString()}
+          <div className="fb-post-header">
+            <div>
+              <div className="fb-post-author">{post.autor}</div>
+              {post.fecha && (
+                <div className="fb-post-date">
+                  {new Date(post.fecha).toLocaleString()}
+                </div>
+              )}
             </div>
-          )}
-          <div className="mt-2">{texto}</div>
-          {imagen && <img src={imagen} alt="post" className="img-fluid rounded mt-2" />}
-          <button
-            className="btn btn-outline-primary mt-3"
-            onClick={() => navigate("/")}
-          >
-            Volver al feed
-          </button>
+          </div>
+
+          <div className="fb-post-content">
+            <p className="fb-post-text">{texto}</p>
+            {imagen && (
+              <div className="fb-post-media">
+                <img src={imagen} alt="post" />
+              </div>
+            )}
+          </div>
+
+          <div className="fb-post-footer justify-content-between">
+            <button className="btn fb-btn-ghost" onClick={() => navigate(-1)}>
+              Volver
+            </button>
+            <button className="btn fb-btn" onClick={() => navigate("/")}>
+              Ir al feed
+            </button>
+          </div>
         </div>
-      </div>
+      </article>
     </div>
   );
 }
