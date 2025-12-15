@@ -231,10 +231,12 @@ async def og_post(post_id: int):
         <meta name="twitter:title" content="{texto}" />
         <meta name="twitter:description" content="Post de {r['autor']}" />
         {"<meta name='twitter:image' content='" + imagen + "' />" if imagen else ""}
+
+        <!-- Redirección para humanos -->
+        <meta http-equiv="refresh" content="0; url={FRONTEND_ORIGINS}/posts/{post_id}" />
     </head>
     <body>
-        <p>Este enlace es solo para previsualización.</p>
-        <p><strong>{texto}</strong></p>
+        <p>Redirigiendo al post…</p>
     </body>
     </html>
     """
