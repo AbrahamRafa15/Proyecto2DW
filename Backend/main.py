@@ -211,6 +211,8 @@ async def og_post(post_id: int):
 
     # URL pública base (Render o local)
     PUBLIC_BASE_URL = os.getenv("PUBLIC_BASE_URL", "http://localhost:8000")
+    # URL base del frontend para redirección
+    FRONTEND_BASE_URL = os.getenv("FRONTEND_BASE_URL", "http://localhost:5173")
 
     html = f"""
     <!DOCTYPE html>
@@ -233,7 +235,7 @@ async def og_post(post_id: int):
         {"<meta name='twitter:image' content='" + imagen + "' />" if imagen else ""}
 
         <!-- Redirección para humanos -->
-        <meta http-equiv="refresh" content="0; url={FRONTEND_ORIGINS}/posts/{post_id}" />
+        <meta http-equiv="refresh" content="0; url={FRONTEND_BASE_URL}/posts/{post_id}" />
     </head>
     <body>
         <p>Redirigiendo al post…</p>
