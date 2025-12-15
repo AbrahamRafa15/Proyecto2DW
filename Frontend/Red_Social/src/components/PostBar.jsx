@@ -4,7 +4,7 @@ export default function PostBar({ posts, user, onUpdatePost, onDeletePost, onSta
   }
 
   return (
-    <div className="d-flex flex-column gap-3">
+    <div className="d-flex flex-column gap-3 fb-post-list">
       {posts.map((p) => {
         // El backend manda todo el texto en `contenido`
         // Usamos la primera línea como texto y la segunda (si existe) como imagen
@@ -13,69 +13,75 @@ export default function PostBar({ posts, user, onUpdatePost, onDeletePost, onSta
         const imagen = lineas.length > 1 ? lineas[1] : null;
 
         return (
-          <div className="fb-card" key={p.id}>
+          <article className="fb-card fb-post" key={p.id}>
             <div className="card-body">
-              <div className="fw-bold">{p.autor}</div>
-
-              {p.fecha && (
-                <div className="text-muted small">
-                  {new Date(p.fecha).toLocaleString()}
+              <div className="fb-post-header">
+                <div>
+                  <div className="fb-post-author">{p.autor}</div>
+                  {p.fecha && (
+                    <div className="fb-post-date">
+                      {new Date(p.fecha).toLocaleString()}
+                    </div>
+                  )}
                 </div>
-              )}
 
-              <div className="mt-2">{texto}</div>
+                {user && p.autor === user && (
+                  <div className="fb-post-owner-actions">
+                    <button
+                      className="btn btn-sm fb-btn-ghost"
+                      onClick={() => onStartEditPost(p)}
+                    >
+                      Editar
+                    </button>
+                    <button
+                      className="btn btn-sm fb-btn-danger"
+                      onClick={() => onDeletePost(p.id)}
+                    >
+                      Eliminar
+                    </button>
+                  </div>
+                )}
+              </div>
 
-              {imagen && (
-                <img
-                  src={imagen}
-                  alt="post"
-                  className="img-fluid rounded mt-2"
-                />
-              )}
+              <div className="fb-post-content">
+                <p className="fb-post-text">{texto}</p>
+                {imagen && (
+                  <div className="fb-post-media">
+                    <img src={imagen} alt="post" loading="lazy" />
+                  </div>
+                )}
+              </div>
 
-              {user && p.autor === user && (
-                <div className="mt-2 d-flex gap-2">
+              <div className="fb-post-footer">
+                <div className="fb-post-cta">
                   <button
-                    className="btn btn-sm btn-outline-primary"
-                    onClick={() => onStartEditPost(p)}
+                    className="btn fb-btn-ghost"
+                    onClick={() => {
+                      const baseUrl =
+                        window.location.origin + window.location.pathname;
+                      const postUrl = `${baseUrl}#/posts/${p.id}`;
+                      window.location.href = postUrl;
+                    }}
                   >
-                    Editar
+                    Ver
                   </button>
+
                   <button
-                    className="btn btn-sm btn-outline-danger"
-                    onClick={() => onDeletePost(p.id)}
+                    className="btn fb-btn"
+                    onClick={() => {
+                      const baseUrl =
+                        window.location.origin + window.location.pathname;
+                      const postUrl = `${baseUrl}#/posts/${p.id}`;
+                      navigator.clipboard.writeText(postUrl);
+                      alert("Link copiado para compartir ✨");
+                    }}
                   >
-                    Eliminar
+                    Compartir
                   </button>
                 </div>
-              )}
-
-              <div className="mt-3 d-flex gap-2">
-                <button
-                  className="btn btn-outline-primary btn-sm"
-                  onClick={() => {
-                    const baseUrl = window.location.origin + window.location.pathname;
-                    const postUrl = `${baseUrl}#/posts/${p.id}`;
-                    window.location.href = postUrl;
-                  }}
-                >
-                  Ver
-                </button>
-
-                <button
-                  className="btn btn-outline-secondary btn-sm"
-                  onClick={() => {
-                    const baseUrl = window.location.origin + window.location.pathname;
-                    const postUrl = `${baseUrl}#/posts/${p.id}`;
-                    navigator.clipboard.writeText(postUrl);
-                    alert("Link copiado para compartir ✨");
-                  }}
-                >
-                  Compartir
-                </button>
               </div>
             </div>
-          </div>
+          </article>
         );
       })}
     </div>
