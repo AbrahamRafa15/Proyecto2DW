@@ -1,4 +1,7 @@
+import { useNavigate } from "react-router-dom";
+
 export default function PostBar({ posts, user, onUpdatePost, onDeletePost, onStartEditPost }) {
+  const navigate = useNavigate();
   if (!posts || posts.length === 0) {
     return <div className="alert alert-secondary">No hay posts todavía.</div>;
   }
@@ -57,8 +60,7 @@ export default function PostBar({ posts, user, onUpdatePost, onDeletePost, onSta
                   <button
                     className="btn fb-btn-ghost"
                     onClick={() => {
-                      const postUrl = `${import.meta.env.VITE_API_URL}/og/posts/${p.id}`;
-                      window.location.href = postUrl;
+                      navigate(`/posts/${p.id}`);
                     }}
                   >
                     Ver
