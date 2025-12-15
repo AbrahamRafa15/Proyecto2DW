@@ -235,7 +235,7 @@ async def og_post(post_id: int):
         {"<meta name='twitter:image' content='" + imagen + "' />" if imagen else ""}
 
         <!-- Redirección para humanos -->
-        <meta http-equiv="refresh" content="0; url={FRONTEND_BASE_URL}/posts/{post_id}" />
+        <meta http-equiv="refresh" content="0; url={FRONTEND_BASE_URL}/#/posts/{post_id}" />
     </head>
     <body>
         <p>Redirigiendo al post…</p>
